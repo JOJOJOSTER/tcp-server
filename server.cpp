@@ -101,6 +101,8 @@ public:
   // ACCEPT
   void Accept_Socket() {
 
+    std::cout << "[SERVER]> Handling new connection..." << std::endl;
+
     clientSize = sizeof(temp_client_address);
     temp_client_fd =
         accept(server_fd, (sockaddr *)&temp_client_address, &clientSize);
