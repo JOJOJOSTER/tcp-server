@@ -1,29 +1,31 @@
 #include "src/tcp_server.h"
 
+bool PrintServerMessage(ERROR_HANDLER error_code) {
+  if (error_code.isSuccesful()) {
+    std::cout << "[SERVER]> " << error_code.Get_Message() << std::endl;
+  } else {
+    std::cout << "[SERVER] [ERROR]> " << error_code.Get_Message() << std::endl;
+  }
+
+  return error_code.isSuccesful();
+}
+
 int main() {
 
   using namespace std;
 
   TCP_Server tcp_server;
 
-  tcp_server.Init_Socket();
-  if (tcp_server.GetHasError()) {
+  ERROR_HANDLER error_code = tcp_server.Start(54001, 1);
+
+  if (!PrintServerMessage(error_code)) {
     return -1;
   }
 
-  tcp_server.Bind_Socket();
-  if (tcp_server.GetHasError()) {
+  error_code = tcp_server.Accept_Socket();
+
+  if (!PrintServerMessage(error_code)) {
     return -2;
-  }
-
-  tcp_server.Listen_Socket(5);
-  if (tcp_server.GetHasError()) {
-    return -3;
-  }
-
-  tcp_server.Accept_Socket();
-  if (tcp_server.GetHasError()) {
-    return -4;
   }
 
   tcp_server.PrintConnectedClient();
