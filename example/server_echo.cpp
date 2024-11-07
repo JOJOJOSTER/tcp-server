@@ -2,9 +2,9 @@
 
 bool PrintServerMessage(ERROR_HANDLER error_code) {
   if (error_code.isSuccesful()) {
-    std::cout << "[SERVER] " << error_code.Get_Message() << std::endl;
+    std::cout << "[SERVER]> " << error_code.Get_Message() << std::endl;
   } else {
-    std::cout << "[SERVER] [ERROR] " << error_code.Get_Message() << std::endl;
+    std::cout << "[SERVER] [ERROR]> " << error_code.Get_Message() << std::endl;
   }
 
   return error_code.isSuccesful();
