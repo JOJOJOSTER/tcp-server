@@ -1,9 +1,6 @@
-#include "src/tcp_server.h"
+#include "../src/tcp_server.h"
 
 int main() {
-
-  using namespace std;
-
   TCP_Server tcp_server;
 
   tcp_server.Init_Socket();
@@ -28,14 +25,19 @@ int main() {
 
   tcp_server.PrintConnectedClient();
 
-  std::string recieve_message;
-  tcp_server.Receive_Socket(recieve_message);
-  std::cout << "[CLIENT]> \n" << recieve_message << std::endl;
+  while (true) {
 
-  // Just try to make HTTP response
-  std::string server_message =
-      "HTTP/1.1 200 OK\nServer:JOJO\n\n<p>Hello world</p>\n";
-  tcp_server.Send_Socket(server_message);
+    std::string recieve_message;
 
-  return 0;
+    int ret_recieve = tcp_server.Receive_Socket(recieve_message);
+
+    if (ret_recieve <= 0) {
+      std::cout << "[CLIENT]> Disconnected" << std::endl;
+      break;
+    }
+
+    std::cout << "[CLIENT] [Message]> " << recieve_message << std::endl;
+
+    tcp_server.Send_Socket(recieve_message);
+  }
 }
